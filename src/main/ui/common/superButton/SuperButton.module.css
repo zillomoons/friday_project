@@ -12,3 +12,9 @@
     cursor: pointer;
     box-shadow: 0 0.5em 0.5em -0.4em #21268F;
 }
+.buttonStyles:disabled{
+    background-color: rgba(33, 38, 143, 0.27);
+}
+.buttonStyles:disabled:hover{
+    cursor:not-allowed;
+}
