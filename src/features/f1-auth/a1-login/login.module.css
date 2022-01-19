@@ -1,0 +1,13 @@
+.loginContainer{
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin: 50px auto;
+    text-align: center;
+}
+.checkBox{
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}

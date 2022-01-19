@@ -15,7 +15,7 @@ export const setPassReducer = (state = initState, action: ActionType): InitState
 }
 
 //Action Creators
-export const setNewPasswordSuccess = (newPassSuccess: boolean) => ({type: 'SET-NEW-PASSWORD-SUCCESS', payload: {newPassSuccess}} as const)
+export const setNewPassSuccess = (newPassSuccess: boolean) => ({type: 'SET-NEW-PASSWORD-SUCCESS', payload: {newPassSuccess}} as const)
 
 //Thunk Creators
 export const setNewPass = (password: string, token: string) => async(dispatch: Dispatch) => {
@@ -23,7 +23,7 @@ export const setNewPass = (password: string, token: string) => async(dispatch: D
         dispatch(setLoading(true));
         dispatch(setError(null));
         await setPassAPI.setNewPass(password, token);
-        dispatch(setNewPasswordSuccess(true));
+        dispatch(setNewPassSuccess(true));
     } catch (e: any) {
         dispatch(setError(e.response? e.response.data.error : 'some error'))
     } finally {
@@ -31,6 +31,6 @@ export const setNewPass = (password: string, token: string) => async(dispatch: D
     }
 }
 
-type ActionType = ReturnType<typeof setNewPasswordSuccess>
+type ActionType = ReturnType<typeof setNewPassSuccess>
 
 type InitStateType = typeof initState;

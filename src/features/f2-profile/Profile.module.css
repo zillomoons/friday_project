@@ -1,0 +1,7 @@
+.profileContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 200px;
+    margin: 50px auto;
+}
