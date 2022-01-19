@@ -13,8 +13,8 @@ export const appReducer = (state = initState, action: ActionType): AppInitStateT
     }
 }
 
-export const setError = (appError: string | null) => ({type: 'SET-ERROR', payload: {appError}})
-export const setLoading = (isLoading: boolean) => ({type: 'SET-LOADING', payload: {isLoading}})
+export const setError = (appError: string | null) => ({type: 'SET-ERROR', payload: {appError}} as const)
+export const setLoading = (isLoading: boolean) => ({type: 'SET-LOADING', payload: {isLoading}} as const)
 
 export type AppInitStateType = typeof initState;
 type ActionType = ReturnType<typeof setLoading> | ReturnType<typeof setError>;

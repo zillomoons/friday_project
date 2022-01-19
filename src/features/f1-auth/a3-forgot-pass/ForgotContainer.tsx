@@ -5,7 +5,7 @@ import {AppStoreType} from "../../../main/bll/store/store";
 import {recoverPass} from "../../../main/bll/reducers/forgot-reducer";
 
 export const ForgotContainer = () => {
-    const {isLoading, appError} = useSelector((state: AppStoreType) => state.app);
+    const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
     const dispatch = useDispatch();
     const [text, setText] = useState<string>('');
     const onInputChangeText = (value: string) => {
@@ -20,7 +20,6 @@ export const ForgotContainer = () => {
     return (
         <>
             <ForgotPass inputValue={text}
-                        error={appError}
                         isLoading={isLoading}
                         onChange={onInputChangeText}
                         onEnter={onRecoverPass}
