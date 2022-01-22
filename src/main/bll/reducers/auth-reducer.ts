@@ -81,7 +81,7 @@ export const registerUser = (email: string, pass: string) => async (dispatch: Di
 
 // Forgot password thunk
 const recoveryMessage = `<div style="background-color: #ccc; padding: 15px">
-password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>
+password recovery link: <a href='https://zillomoons.github.io/friday_project/#/set-new-password/$token$'>
 link</a></div>`
 
 export const forgotPass = (email: string) => async (dispatch: Dispatch) => {
