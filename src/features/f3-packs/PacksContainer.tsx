@@ -1,17 +1,20 @@
-import {Packs} from "./Packs";
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {createPack, deletePack, getPacks, setRangeValues, updatePack} from "../../main/bll/reducers/packs-reducer";
-import {AppStoreType} from "../../main/bll/store/store";
+import { Packs } from "./Packs";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createPack, deletePack, getPacks, setRangeValues, updatePack } from "../../main/bll/reducers/packs-reducer";
+import { AppStoreType } from "../../main/bll/store/store";
 import s from "./Packs.module.css";
-import {AddNewItem} from "./AddNewItem";
-import {DoubleRangeSlider} from "../../main/ui/common/doubleRangeSlider/DoubleRangeSlider";
+import { AddNewItem } from "./AddNewItem";
+import { DoubleRangeSlider } from "../../main/ui/common/doubleRangeSlider/DoubleRangeSlider";
+import { Navigate } from "react-router-dom";
+import { PATH } from "../../main/ui/routes/Routes";
 
 export const PacksContainer = () => {
     const dispatch = useDispatch();
+    const { isLoggedIn } = useSelector((state: AppStoreType) => state.login)
     const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
     const userId = useSelector((state: AppStoreType) => state.profile._id);
-    const {packs, minCardsCount, maxCardsCount, min, max} = useSelector((state: AppStoreType) => state.packs);
+    const { packs, minCardsCount, maxCardsCount, min, max } = useSelector((state: AppStoreType) => state.packs);
     const headers = ['Name', 'Cards', 'Last updated', 'Created by', 'Actions'];
 
     // values for DoubleRangeSlider
@@ -36,24 +39,27 @@ export const PacksContainer = () => {
     const onEditingPack = (id: string, name?: string) => {
         dispatch(updatePack(id, name))
     }
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN} />
+    }
 
     return (
         <div className={s.packList}>
             <h3>Packs list</h3>
             <AddNewItem addNewCallback={onAddingNewPack}
-                        isLoading={isLoading}
+                isLoading={isLoading}
             />
             <DoubleRangeSlider min={minCardsCount} max={maxCardsCount}
-                               setCardsQtyRange={setCardsQtyRange}
-                               setRangeValue1={setRangeValue1}
-                               setRangeValue2={setRangeValue2}
-                               value={[rangeValue1, rangeValue2]}
-                               />
+                setCardsQtyRange={setCardsQtyRange}
+                setRangeValue1={setRangeValue1}
+                setRangeValue2={setRangeValue2}
+                value={[rangeValue1, rangeValue2]}
+            />
             <Packs packs={packs}
-                   headers={headers}
-                   userId={userId}
-                   onRemovingPack={onRemovingPack}
-                   onEditingPack={onEditingPack}
+                headers={headers}
+                userId={userId}
+                onRemovingPack={onRemovingPack}
+                onEditingPack={onEditingPack}
             />
         </div>
     )

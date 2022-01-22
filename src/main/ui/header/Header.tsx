@@ -1,18 +1,24 @@
-import {Link} from "react-router-dom";
-import s from './Header.module.css'
-import {PATH} from "../routes/Routes";
+import { NavLink } from "react-router-dom";
+import './Header.css'
+import { PATH } from "../routes/Routes";
+import { MdPersonOutline } from 'react-icons/md'
+import { GiCardRandom } from 'react-icons/gi'
 
 export const Header = () => {
     return (
-        <nav className={s.nav}>
-            <Link to={PATH.PROFILE}>Profile</Link>
-            <Link to={PATH.TEST}>Test</Link>
-            <Link to={PATH.REGISTER}>Registration</Link>
-            <Link to={PATH.LOGIN}>Login</Link>
-            <Link to={PATH.PACKS}>Packs</Link>
-            <Link to={PATH.CARDS}>Cards</Link>
-            <Link to={PATH.FORGOT}>ForgotPass</Link>
-            <Link to={PATH.SET_PASS}>SetNewPass</Link>
-        </nav>
+        <div className="header">
+            <div className="logo">It-incubator</div>
+            <nav className="nav">
+                <NavLink to={PATH.MAIN}>
+                    <i><GiCardRandom /> </i>
+                    Packs list
+                </NavLink>
+                <NavLink to={PATH.PROFILE}>
+                    <i><MdPersonOutline /></i>
+                    Profile
+                </NavLink>
+            </nav>
+        </div>
+
     )
 }

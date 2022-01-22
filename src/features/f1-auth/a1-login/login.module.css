@@ -1,3 +1,7 @@
+.authWrapper{
+    width: 100vw;
+    height: 100vh;
+}
 .loginContainer{
     width: 200px;
     display: flex;
@@ -5,6 +9,7 @@
     gap: 40px;
     margin: 50px auto;
     text-align: center;
+    background-color: white;
 }
 .checkBox{
     display: flex;

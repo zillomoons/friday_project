@@ -17,16 +17,19 @@ export const Profile = () => {
         return <Navigate to={PATH.LOGIN} />
     }
     return (
-        <div className={s.profileContainer}>
-            <h3>Profile</h3>
-            <div>
-                <b>Name: </b> {name}
+        <div className={s.authWrapper}>
+            <div className={s.profileContainer}>
+                <h3>Profile</h3>
+                <div>
+                    <b>Name: </b> {name}
+                </div>
+                <div>
+                    <b>Email: </b> {email}
+                </div>
+                <SuperButton onClick={onLogout}>LOGOUT</SuperButton>
             </div>
-            <div>
-                <b>Email: </b> {email}
-            </div>
-            <SuperButton onClick={onLogout}>LOGOUT</SuperButton>
         </div>
+       
 
     )
 }

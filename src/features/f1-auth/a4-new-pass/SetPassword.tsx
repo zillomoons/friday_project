@@ -1,7 +1,7 @@
 import SuperInputText from "../../../main/ui/common/superInput/SuperInput";
 import SuperButton from "../../../main/ui/common/superButton/SuperButton";
-import {SuperNavLink} from "../../../main/ui/common/superNavLink/SuperNavLink";
-import {PATH} from "../../../main/ui/routes/Routes";
+import { SuperNavLink } from "../../../main/ui/common/superNavLink/SuperNavLink";
+import { PATH } from "../../../main/ui/routes/Routes";
 import s from "./SetPassword.module.css";
 
 export const SetPassword = (props: SetPassPropsType) => {
@@ -14,16 +14,19 @@ export const SetPassword = (props: SetPassPropsType) => {
     } = props;
 
     return (
-        <div className={s.formContainer}>
-            <SuperInputText value={inputValue[0]}
-                            disabled={isLoading}
-                            onChangeText={onChange1}/>
-            <SuperInputText value={inputValue[1]}
-                            disabled={isLoading}
-                            onChangeText={onChange2}/>
-            <SuperButton  disabled={isLoading} onClick={onSubmit}>setPass</SuperButton>
-            <SuperNavLink text='login' url={PATH.LOGIN}/>
+        <div className={s.authWrapper}>
+            <div className={s.formContainer}>
+                <SuperInputText value={inputValue[0]}
+                    disabled={isLoading}
+                    onChangeText={onChange1} />
+                <SuperInputText value={inputValue[1]}
+                    disabled={isLoading}
+                    onChangeText={onChange2} />
+                <SuperButton disabled={isLoading} onClick={onSubmit}>setPass</SuperButton>
+                <SuperNavLink text='login' url={PATH.LOGIN} />
+            </div>
         </div>
+
     )
 }
 type SetPassPropsType = {
