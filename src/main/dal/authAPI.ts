@@ -13,6 +13,9 @@ export const authAPI = {
     }, 
     me(){
         return instance.post<AuthResType>('auth/me')
+    },
+    register(email: string, password: string) {
+        return instance.post('auth/register', {email, password} )
     }
 }
 

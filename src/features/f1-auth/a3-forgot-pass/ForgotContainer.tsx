@@ -2,7 +2,7 @@ import {ForgotPass} from "./ForgotPass";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../main/bll/store/store";
-import {recoverPass} from "../../../main/bll/reducers/forgot-reducer";
+import { forgotPass } from "../../../main/bll/reducers/auth-reducer";
 
 export const ForgotContainer = () => {
     const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
@@ -13,7 +13,7 @@ export const ForgotContainer = () => {
     }
 
     const onRecoverPass = () => {
-        dispatch(recoverPass(text))
+        dispatch(forgotPass(text))
         setText('');
     }
 

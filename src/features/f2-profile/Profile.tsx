@@ -9,7 +9,7 @@ import s from "./Profile.module.css"
 export const Profile = () => {
     const dispatch = useDispatch();
     const {name, email} = useSelector((state: AppStoreType) => state.profile)
-    const {isLoggedIn} = useSelector((state: AppStoreType) => state.login)
+    const {isLoggedIn} = useSelector((state: AppStoreType) => state.auth)
     const onLogout = () => {
         dispatch(logout())
     }

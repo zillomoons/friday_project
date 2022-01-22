@@ -1,29 +1,21 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import { HashRouter } from "react-router-dom";
-import { Main } from './Main';
-import store, { AppStoreType } from "../bll/store/store";
-import { Provider } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { PATH } from './routes/Routes';
+import React, { useEffect } from "react";
+import "./App.css";
+import { Main } from "./Main";
+import { useDispatch } from "react-redux";
+import { authMe } from "../bll/reducers/auth-reducer";
 
 function App() {
-    useEffect(() => {
+  const dispatch = useDispatch();
 
-    }, [])
+  useEffect(() => {
+    dispatch(authMe());
+  }, [dispatch]);
 
-    return (
-        <div className='App'>
-            <HashRouter>
-                <Provider store={store}>
-                    <Main />
-                </Provider>
-            </HashRouter>
-
-        </div>
-
-    );
+  return (
+    <div className="App">
+      <Main />
+    </div>
+  );
 }
 
 export default App;
