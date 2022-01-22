@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {setError, setLoading} from "./app-reducer";
 import {authAPI} from "../../dal/authAPI";
 import {setUserInfo} from "./profile-reducer";
+import { AppStoreType } from "../store/store";
 
 const initState = {
     isLoggedIn: false,
@@ -45,6 +46,22 @@ export const logout = () => async(dispatch: Dispatch) => {
     } finally {
         dispatch(setLoading(false))
     }
+}
+
+export const authMe = () => async (dispatch: Dispatch, getState: ()=> AppStoreType) => {
+   const userId = getState().profile._id
+    try{
+    dispatch(setLoading(true))
+    const res = await authAPI.me();
+    if(res.data._id === userId){
+        
+    }
+    
+   } catch (e: any){
+    dispatch(setError(e.response? e.response.data.error : 'some error'))
+   } finally {
+    dispatch(setLoading(false))
+}
 }
 
 type ActionType = ReturnType<typeof setIsLoggedIn>

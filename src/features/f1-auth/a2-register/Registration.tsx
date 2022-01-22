@@ -1,3 +1,12 @@
+import SuperInputText from "../../../main/ui/common/superInput/SuperInput"
+
 export const Registration = () => {
-    return <h3>Registration</h3>
+    return (
+        <div>
+            <h3>Registration</h3>
+            <SuperInputText />
+            <SuperInputText />
+        </div>
+    ) 
+    
 }
