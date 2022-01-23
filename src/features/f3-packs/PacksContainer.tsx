@@ -17,9 +17,7 @@ import { PATH } from "../../main/ui/routes/Routes";
 
 export const PacksContainer = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(
-    (state: AppStoreType) => state.auth.isLoggedIn
-  );
+
   const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
   const userId = useSelector((state: AppStoreType) => state.profile._id);
   const { packs, minCardsCount, maxCardsCount, min, max } = useSelector(
@@ -49,9 +47,6 @@ export const PacksContainer = () => {
   const onEditingPack = (id: string, name?: string) => {
     dispatch(updatePack(id, name));
   };
-  if (!isLoggedIn) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
 
   return (
     <div className={s.packList}>
