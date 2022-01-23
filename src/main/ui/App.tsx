@@ -6,7 +6,6 @@ import { authMe } from "../bll/reducers/auth-reducer";
 
 function App() {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(authMe());
   }, [dispatch]);
