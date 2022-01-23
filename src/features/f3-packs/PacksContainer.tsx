@@ -12,8 +12,6 @@ import { AppStoreType } from "../../main/bll/store/store";
 import s from "./Packs.module.css";
 import { AddNewItem } from "./AddNewItem";
 import { DoubleRangeSlider } from "../../main/ui/common/doubleRangeSlider/DoubleRangeSlider";
-import { Navigate } from "react-router-dom";
-import { PATH } from "../../main/ui/routes/Routes";
 
 export const PacksContainer = () => {
   const dispatch = useDispatch();
@@ -35,19 +33,27 @@ export const PacksContainer = () => {
   };
 
   //CRUD operations with packs
+
+  // request for packs from server
   useEffect(() => {
     dispatch(getPacks());
   }, [dispatch, min, max]);
+
+  //sending request on adding new pack
   const onAddingNewPack = (value: string) => {
     dispatch(createPack(value ? value : "New Pack"));
   };
+
+  //sending request on deleting pack
   const onRemovingPack = (id: string) => {
     dispatch(deletePack(id));
   };
+
+  //sending request on editing pack
   const onEditingPack = (id: string, name?: string) => {
     dispatch(updatePack(id, name));
   };
-
+  
   return (
     <div className={s.packList}>
       <h3>Packs list</h3>

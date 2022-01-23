@@ -58,7 +58,8 @@ export const logout = () => async(dispatch: Dispatch) => {
 export const authMe = () => async (dispatch: Dispatch, getState: ()=> AppStoreType) => {
     try{
         dispatch(setLoading(true))
-        await authAPI.me();
+        const res = await authAPI.me();
+        dispatch(setUserInfo(res.data))
         dispatch(setIsLoggedIn(true));
    } catch (e: any){
     dispatch(setError(e.response? e.response.data.error : 'some error'))
