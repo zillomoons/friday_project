@@ -22,7 +22,7 @@ export const LoginContainer = () => {
   }
   return (
     <>
-          <Login onLogin={onLogin} isLoading={ isLoading }/>
+      <Login onLogin={onLogin} isLoading={isLoading} />
     </>
   );
 };

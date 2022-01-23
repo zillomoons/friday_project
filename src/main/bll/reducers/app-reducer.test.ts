@@ -1,10 +1,11 @@
-import {AppInitStateType, appReducer, setError} from "./app-reducer";
+import { AppInitStateType, appReducer, setError } from "./app-reducer";
 
 let startState: AppInitStateType;
-beforeEach(()=> {
+beforeEach(() => {
     startState = {
         isLoading: false,
         appError: null,
+        isInitialized: false
     }
 })
 test('app-reducer should set correct error', () => {

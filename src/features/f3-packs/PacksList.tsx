@@ -8,12 +8,12 @@ export const PacksList = () => {
   const isLoggedIn = useSelector(
     (state: AppStoreType) => state.auth.isLoggedIn
   );
-if (!isLoggedIn) {
-  return <Navigate to={PATH.LOGIN} />;
-}
-    return (
-        <>
-            <PacksContainer />
-        </>
-    )
+  if (!isLoggedIn) {
+    return <Navigate to={PATH.LOGIN} />;
+  }
+  return (
+    <>
+      <PacksContainer />
+    </>
+  )
 }

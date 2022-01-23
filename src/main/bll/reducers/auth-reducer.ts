@@ -1,8 +1,7 @@
-import {Dispatch} from "redux";
-import {setError, setLoading} from "./app-reducer";
-import {authAPI} from "../../dal/authAPI";
-import {setUserInfo} from "./profile-reducer";
-import { AppStoreType } from "../store/store";
+import { Dispatch } from "redux";
+import { setError, setLoading } from "./app-reducer";
+import { authAPI } from "../../dal/authAPI";
+import { setUserInfo } from "./profile-reducer";
 import { forgotAPI } from "../../dal/forgotAPI";
 import { setPassAPI } from "../../dal/setPassAPI";
 
@@ -13,7 +12,7 @@ const initState = {
 }
 
 export const authReducer = (state = initState, action: ActionsType): InitStateType => {
-    switch (action.type){
+    switch (action.type) {
         case "auth/SET-IS_LOGGED_IN":
         case "auth/SET-AUTH-SUCCESS":
             return { ...state, ...action.payload }
@@ -26,47 +25,35 @@ export const authReducer = (state = initState, action: ActionsType): InitStateTy
 export const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: 'auth/SET-IS_LOGGED_IN', payload: { isLoggedIn } } as const);
 
 //action creator for register 
-export const setAuthSuccess = (authSuccess: boolean) => ({ type: 'auth/SET-AUTH-SUCCESS', payload: {authSuccess}} as const)
+export const setAuthSuccess = (authSuccess: boolean) => ({ type: 'auth/SET-AUTH-SUCCESS', payload: { authSuccess } } as const)
 
 //Thunk creators
-export const login = (email: string, password: string, rememberMe: boolean) => async(dispatch: Dispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(true));
         dispatch(setError(null));
         const res = await authAPI.login(email, password, rememberMe);
         dispatch(setUserInfo(res.data));
         dispatch(setIsLoggedIn(true))
-    } catch (e:any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+    } catch (e: any) {
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
 }
-export const logout = () => async(dispatch: Dispatch) => {
+export const logout = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(true));
         dispatch(setError(null));
         await authAPI.logout();
         dispatch(setIsLoggedIn(false));
-    } catch (e:any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+    } catch (e: any) {
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
 }
 
-export const authMe = () => async (dispatch: Dispatch, getState: ()=> AppStoreType) => {
-    try{
-        dispatch(setLoading(true))
-        const res = await authAPI.me();
-        dispatch(setUserInfo(res.data))
-        dispatch(setIsLoggedIn(true));
-   } catch (e: any){
-    dispatch(setError(e.response? e.response.data.error : 'some error'))
-   } finally {
-    dispatch(setLoading(false))
-}
-}
 // Register user thunk
 export const registerUser = (email: string, pass: string) => async (dispatch: Dispatch) => {
     try {
@@ -74,7 +61,7 @@ export const registerUser = (email: string, pass: string) => async (dispatch: Di
         await authAPI.register(email, pass);
         dispatch(setAuthSuccess(true))
     } catch (e: any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
@@ -97,14 +84,14 @@ export const forgotPass = (email: string) => async (dispatch: Dispatch) => {
     }
 }
 // Set new password thunk
-export const setNewPass = (password: string, token: string) => async(dispatch: Dispatch) => {
+export const setNewPass = (password: string, token: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(true));
         dispatch(setError(null));
         await setPassAPI.setNewPass(password, token);
         dispatch(setAuthSuccess(true));
     } catch (e: any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
