@@ -1,6 +1,6 @@
 import s from './Packs.module.css';
-import {PackType} from "../../main/bll/reducers/packs-reducer";
-import {Pack} from "./Pack";
+import {PackType} from "../../../main/bll/reducers/packs-reducer";
+import {Pack} from "./Pack/Pack";
 import React from 'react';
 
 export const Packs = React.memo(({packs, headers, userId, onRemovingPack, onEditingPack}: PropsType) => {

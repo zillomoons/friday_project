@@ -1,8 +1,8 @@
-import s from "./Packs.module.css";
+import s from "./Packs/Packs.module.css"
 import SuperButton from "../../main/ui/common/superButton/SuperButton";
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-export const AddNewItem = ({isLoading, addNewCallback}: PropsType) =>{
+export const AddNewItem = ({ isLoading, addNewCallback }: PropsType) => {
     const [text, setText] = useState('');
     // temp input will be replaced by modal window
 
@@ -17,9 +17,9 @@ export const AddNewItem = ({isLoading, addNewCallback}: PropsType) =>{
             {/*            value={text}*/}
             {/*            onChange={e => setText(e.currentTarget.value)}*/}
             {/*/>*/}
-            <SuperButton style={{width: '200px'}}
-                         onClick={addNewItem}
-                         disabled={isLoading}
+            <SuperButton style={{ width: '200px' }}
+                onClick={addNewItem}
+                disabled={isLoading}
             >
                 Add new pack
             </SuperButton>
@@ -29,5 +29,5 @@ export const AddNewItem = ({isLoading, addNewCallback}: PropsType) =>{
 
 type PropsType = {
     isLoading: boolean
-    addNewCallback: (value:string)=>void
+    addNewCallback: (value: string) => void
 }

@@ -1,0 +1,7 @@
+.packsListWrapper{
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    width: 90%;
+    margin: 50px auto;
+}

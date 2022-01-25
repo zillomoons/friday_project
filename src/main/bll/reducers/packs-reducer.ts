@@ -1,17 +1,18 @@
-import {Dispatch} from "redux";
-import {packsAPI} from "../../dal/packsAPI";
-import {setError, setLoading} from "./app-reducer";
-import {AppStoreType, AppThunk} from "../store/store";
+import { Dispatch } from "redux";
+import { packsAPI } from "../../dal/packsAPI";
+import { setError, setLoading } from "./app-reducer";
+import { AppStoreType, AppThunk } from "../store/store";
 
 const initState = {
-    packName: '',
+    cardPacks: [] as PackType[],
     minCardsCount: 0, // min and max of our slider
     maxCardsCount: 120,
-    min: 5, // min and max that user selected
-    max: 25,
     page: 1,
-    pageCount: 20,
-    packs: [] as PackType[],
+    pageCount: 10,
+    cardsPacksTotalCount: 50,
+    packName: '',
+    min: 0, // min and max that user selected
+    max: 25,
     isMine: false,
     sortPacks: '',
 }
@@ -21,47 +22,54 @@ export const packsReducer = (state = initState, action: ActionsType): InitStateT
         case "packs/SET-PACKS":
         case "packs/SET-RANGE-VALUES":
         case "packs/SET-CARDS-COUNT":
-            return {...state, ...action.payload}
+        case 'packs/SET-IS-MINE-CARDS':
+        case "packs/SET-PACK-NAME": 
+            return { ...state, ...action.payload }
         default:
             return state;
     }
 }
 
 //Action creators
-export const setPacks = (packs: PackType[]) => ({type: 'packs/SET-PACKS', payload: {packs}} as const)
-export const setCardsCount = (minCardsCount: number, maxCardsCount: number) => ({type: 'packs/SET-CARDS-COUNT',
-    payload: {minCardsCount, maxCardsCount}} as const);
-export const setRangeValues = (min: number, max: number) => ({type: 'packs/SET-RANGE-VALUES', payload: {min, max}} as const)
+export const setPacks = (cardPacks: PackType[]) => ({ type: 'packs/SET-PACKS', payload: { cardPacks } } as const)
+export const setCardsCount = (minCardsCount: number, maxCardsCount: number) => ({
+    type: 'packs/SET-CARDS-COUNT',
+    payload: { minCardsCount, maxCardsCount }
+} as const);
+export const setRangeValues = (min: number, max: number) => ({ type: 'packs/SET-RANGE-VALUES', payload: { min, max } } as const)
+export const setIsMineCards = (isMine: boolean) => ({ type: 'packs/SET-IS-MINE-CARDS', payload: { isMine } } as const)
+export const setPackName = (packName: string) => ({ type: "packs/SET-PACK-NAME", payload: {packName}} as const)
 
 //Thunk creators
 export const getPacks = () => async (dispatch: Dispatch, getState: () => AppStoreType) => {
-    const {packName, min, max, page, pageCount, isMine, sortPacks} = getState().packs
+    const { packName, min, max, page, pageCount, isMine, sortPacks } = getState().packs
     const user_id = isMine ? getState().profile._id : null;
     //how to add
     try {
         dispatch(setLoading(true));
         dispatch(setError(null));
-        const res = await packsAPI.getPacks(packName, min, max, sortPacks, page, pageCount, user_id );
-        dispatch(setPacks(res.data.cardPacks))
+        const res = await packsAPI.getPacks(packName, min, max, sortPacks, page, pageCount, user_id);
+        dispatch(setPacks(res.data.cardPacks));
+        dispatch(setCardsCount(res.data.minCardsCount, res.data.maxCardsCount))
     } catch (e: any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
 }
 
 export const createPack = (name: string): AppThunk => async dispatch => {
-        try {
-            dispatch(setLoading(true));
-            dispatch(setError(null));
-            await packsAPI.createPack(name);
-            dispatch(getPacks())
+    try {
+        dispatch(setLoading(true));
+        dispatch(setError(null));
+        await packsAPI.createPack(name);
+        dispatch(getPacks())
 
-        } catch (e: any) {
-            dispatch(setError(e.response? e.response.data.error : 'some error'))
-        } finally {
-            dispatch(setLoading(false))
-        }
+    } catch (e: any) {
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
+    } finally {
+        dispatch(setLoading(false))
+    }
 }
 
 export const deletePack = (id: string): AppThunk => async dispatch => {
@@ -70,8 +78,8 @@ export const deletePack = (id: string): AppThunk => async dispatch => {
         dispatch(setError(null));
         await packsAPI.deletePack(id);
         dispatch(getPacks())
-    }catch (e:any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+    } catch (e: any) {
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
@@ -83,8 +91,8 @@ export const updatePack = (id: string, name?: string): AppThunk => async dispatc
         dispatch(setError(null));
         await packsAPI.updatePack(id, name);
         dispatch(getPacks())
-    }catch (e:any) {
-        dispatch(setError(e.response? e.response.data.error : 'some error'))
+    } catch (e: any) {
+        dispatch(setError(e.response ? e.response.data.error : 'some error'))
     } finally {
         dispatch(setLoading(false))
     }
@@ -94,22 +102,21 @@ export const updatePack = (id: string, name?: string): AppThunk => async dispatc
 
 type InitStateType = typeof initState;
 
-type ActionsType = ReturnType<typeof setPacks> | ReturnType<typeof setRangeValues> | ReturnType<typeof setCardsCount>
+type ActionsType = ReturnType<typeof setPacks>
+    | ReturnType<typeof setRangeValues>
+    | ReturnType<typeof setCardsCount>
+    | ReturnType<typeof setIsMineCards>
+    | ReturnType<typeof setPackName>
 
 export type PackType = {
+    _id: string
+    user_id: string
+    name: string
     cardsCount: number
     created: string
-    grade: number
-    more_id: string
-    name: string
-    // path: string
-    private: false
-    // rating: 0
-    shots: 0
-    // type: "pack" | "folder"
     updated: string
-    user_id: string
+    grade: number
+    shots: 0
     user_name: string
-    // __v: 0
-    _id: string
+    private: false
 }

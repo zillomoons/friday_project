@@ -1,0 +1,24 @@
+.sidebarWrapper{
+    background: #ECECF9;
+    width: 300px;
+    padding: 25px;
+    border-radius: 8px 0 0 8px;
+}
+.sidebarWrapper h4{
+    margin-bottom: 25px;
+    color: #2D2E46;
+}
+.packsBelongTo button{
+    margin-bottom: 25px;
+    background: #9A91C8;
+    color:#fff;
+    border: none;
+    padding: 9px 30px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 14px;
+}
+.packsBelongTo button:nth-child(odd){
+    background: #fff;
+    color: #2D2E46;
+}

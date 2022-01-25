@@ -29,6 +29,7 @@ type PacksResponseType = {
     minCardsCount: number
     page: number
     pageCount: number
+    
 
 }
 
