@@ -1,4 +1,4 @@
-import SuperButton from "../../common/superButton/SuperButton";
+import SuperButton from "../../../common/superButton/SuperButton";
 
 export const DeleteModal = ({packName, deleteCallback, closeModal}: PropsType) => {
     const handleDelete = () => {

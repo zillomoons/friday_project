@@ -13,6 +13,7 @@ import React, {useCallback, useContext, useEffect} from "react";
 import { SearchInput } from "../../../main/ui/common/SearchInput";
 import SuperButton from "../../../main/ui/common/superButton/SuperButton";
 import {ModalContext} from "../../../contexts";
+import {AddPackModal} from "../../../main/ui/components/modals/add-pack-modal/AddPackModal";
 
 export const PacksContainer = () => {
   const {
@@ -29,11 +30,11 @@ export const PacksContainer = () => {
   const userId = useSelector((state: AppStoreType) => state.profile._id);
   const headers = ["Name", "Cards", "Last updated", "Created by", "Actions"];
   //Add new pack modal
-  const {openModal} = useContext(ModalContext);
+  const {openModal, closeModal} = useContext(ModalContext);
   const handleClickAddItem = () => {
     openModal({
       title: 'Add new pack',
-      children: 'name pack'
+      children: <AddPackModal addCallback={onAddingNewPack} closeModal={closeModal} />
     })
   };
   //CRUD operations with packs

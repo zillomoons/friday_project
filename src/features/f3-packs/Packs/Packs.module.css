@@ -29,7 +29,7 @@
     background-color: #ECECF9;
 }
 .packsTable td{
-    width: 200px;
+    /*width: 200px;*/
     inline-size: 150px;
     overflow-wrap: break-word;
     /*word-break: break-all;*/
@@ -38,5 +38,20 @@
     cursor: pointer;
 }
 .packName:hover{
-    color: #46eeae;
+    color: #21268F;
+}
+.actionBtn button{
+    border-radius: 2px;
+    background-color: #D7D8EF;
+    border: none;
+    margin: 0 5px;
+    padding: 6px;
+    color: #21268F;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+ button.deleteBtn{
+    background-color: #F1453D;
+    color: #ffffff;
 }
