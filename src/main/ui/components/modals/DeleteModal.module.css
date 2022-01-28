@@ -1,0 +1,14 @@
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+.buttons button{
+    width: 200px;
+
+}
+.buttons.deleteBtn{
+    background-color: #F1453D;
+}
+.buttons.cancelBtn{
+    background-color: #D7D8EF;
+}

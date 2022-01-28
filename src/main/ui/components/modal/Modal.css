@@ -1,0 +1,38 @@
+.backdrop{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    pointer-events: all;
+    transition: 0.5s all;
+}
+.backdrop.backdrop-hide{
+    opacity: 0;
+    pointer-events: none;
+
+}
+.modal{
+    padding: 20px;
+    border-radius: 12px;
+    background-color: white;
+    width: 50vw;
+    transform: scale(1);
+    transition: 0.4s all;
+}
+.modal.backdrop-hide{
+    transform: scale(0.5);
+
+}
+.modal-header{
+    padding: 10px 20px;
+    border-bottom: 1px solid rgb(219, 219, 219);
+}
+.modal-body{
+    padding: 10px 20px;;
+}

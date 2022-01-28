@@ -14,7 +14,7 @@ const SuperButton= (
         ...restProps// все остальные пропсы попадут в объект restProps, там же будет children
     } : SuperButtonPropsType
 ) => {
-    const finalClassName = `${s.buttonStyles} ${red ? s.red : s.default} `
+    const finalClassName = `${s.buttonStyles} ${className ? className : s.default} `
 
     return (
         <button

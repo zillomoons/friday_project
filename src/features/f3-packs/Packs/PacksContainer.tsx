@@ -9,10 +9,10 @@ import {
 } from "../../../main/bll/reducers/packs-reducer";
 import { AppStoreType } from "../../../main/bll/store/store";
 import s from "./Packs.module.css";
-import { AddNewItem } from "../AddNewItem";
-import SuperInput from "../../../main/ui/common/superInput/SuperInput";
-import { useCallback, useEffect } from "react";
+import React, {useCallback, useContext, useEffect} from "react";
 import { SearchInput } from "../../../main/ui/common/SearchInput";
+import SuperButton from "../../../main/ui/common/superButton/SuperButton";
+import {ModalContext} from "../../../contexts";
 
 export const PacksContainer = () => {
   const {
@@ -28,7 +28,14 @@ export const PacksContainer = () => {
   const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
   const userId = useSelector((state: AppStoreType) => state.profile._id);
   const headers = ["Name", "Cards", "Last updated", "Created by", "Actions"];
-
+  //Add new pack modal
+  const {openModal} = useContext(ModalContext);
+  const handleClickAddItem = () => {
+    openModal({
+      title: 'Add new pack',
+      children: 'name pack'
+    })
+  };
   //CRUD operations with packs
   // request for packs from server
   useEffect(() => {
@@ -59,7 +66,12 @@ export const PacksContainer = () => {
       <h3>Packs list</h3>
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <SearchInput onChange={setSearchValue} />
-        <AddNewItem addNewCallback={onAddingNewPack} isLoading={isLoading} />
+        <SuperButton style={{ width: '200px' }}
+                     onClick={handleClickAddItem}
+                     disabled={isLoading}
+        >
+          Add new pack
+        </SuperButton>
       </div>
 
       <Packs

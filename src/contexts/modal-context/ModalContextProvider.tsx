@@ -1,13 +1,15 @@
 import {ModalContext} from "./ModalContext";
 import {useState} from "react";
+import {Modal} from "../../main/ui/components";
 
 export const ModalProvider = ({children}: PropsType) => {
+    const testModal = {title: "Hi!", children: "It's modal"}
     const [modalOpened, setModalOpened] = useState(false);
-    const [modalContent, setModalContent] = useState(null)
+    const [modalContent, setModalContent] = useState<ModalConfigType>(testModal)
 
     const openModal = (modalConfig: ModalConfigType) => {
-        const {title, content} = modalConfig;
         setModalOpened(true);
+        setModalContent(modalConfig)
     };
     const closeModal = () => {
         setModalOpened(false);
@@ -20,6 +22,7 @@ export const ModalProvider = ({children}: PropsType) => {
 
     return (
         <ModalContext.Provider value={valueModalProvider}>
+            {modalOpened && modalContent && <Modal {...modalContent} />}
             {children}
         </ModalContext.Provider>
     )
@@ -30,5 +33,5 @@ type PropsType = {
 }
 export type ModalConfigType = {
     title: string
-    content: any
+    children: React.ReactNode
 }

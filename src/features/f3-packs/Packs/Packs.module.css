@@ -4,6 +4,8 @@
     flex-direction: column;
     gap: 50px;
     margin: 50px auto;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
 }
 .addNewPack{
     display: flex;
