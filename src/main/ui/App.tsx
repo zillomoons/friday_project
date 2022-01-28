@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { initializeApp } from "../bll/reducers/app-reducer";
 import { AppStoreType } from "../bll/store/store";
 import { Preloader } from "./common/preloader/Preloader";
+import {ModalProvider} from "../../contexts";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,9 +19,12 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Main />
-    </div>
+      <ModalProvider>
+        <div className="App">
+          <Main />
+        </div>
+      </ModalProvider>
+
   );
 }
 
