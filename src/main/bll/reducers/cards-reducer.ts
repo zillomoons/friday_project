@@ -49,6 +49,39 @@ export const createCard = (cardsPack_id: string | null, question?: string, answe
         dispatch(setLoading(false));
     }
 }
+export const updateCard = (cardsPack_id: string, _id: string, question?:string, answer?: string):AppThunk => async dispatch => {
+    try{
+        dispatch(setLoading(true));
+        await cardsAPI.updateCard({_id, question, answer})
+        dispatch(getCards(cardsPack_id));
+    }catch (e:any) {
+        dispatch(setError(e.response? e.response.data.error : 'some error'));
+    } finally {
+        dispatch(setLoading(false));
+    }
+}
+export const deleteCard = (cardsPack_id: string, id: string):AppThunk => async dispatch => {
+    try{
+        dispatch(setLoading(true));
+        await cardsAPI.deleteCard(id)
+        dispatch(getCards(cardsPack_id));
+    }catch (e:any) {
+        dispatch(setError(e.response? e.response.data.error : 'some error'));
+    } finally {
+        dispatch(setLoading(false));
+    }
+}
+export const updateCardGrade = (cardsPack_id: string, _id: string, grade: number): AppThunk => async dispatch => {
+    try{
+        dispatch(setLoading(true));
+        await cardsAPI.updateCardGrade(_id, grade);
+        dispatch(getCards(cardsPack_id));
+    }catch (e:any) {
+        dispatch(setError(e.response? e.response.data.error : 'some error'));
+    } finally {
+        dispatch(setLoading(false));
+    }
+}
 
 // Types
 type InitStateType = typeof initState;

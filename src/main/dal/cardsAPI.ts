@@ -14,8 +14,16 @@ export const cardsAPI = {
     },
     createCard(card: {cardsPack_id: string | null, question?: string, answer?: string}){
         return instance.post('/cards/card', {card})
-    }
-
+    },
+    updateCard(card: {_id: string, question?: string, answer?: string}){
+        return instance.put('/cards/card', {card})
+    },
+    deleteCard(id: string){
+        return instance.delete(`/cards/card?id=${id}`)
+    },
+    updateCardGrade(card_id: string, grade: number){
+        return instance.put<UpdatedGrade>('/cards/grade', {grade, card_id})
+    },
 }
 
 type CardsResType = {
@@ -26,4 +34,12 @@ type CardsResType = {
     page: number
     pageCount: number
     packUserId: string //id of user that created pack
+}
+type UpdatedGrade = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }

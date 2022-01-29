@@ -2,26 +2,26 @@ import SuperButton from "../../../common/superButton/SuperButton";
 import SuperInput from "../../../common/superInput/SuperInput";
 import {useState} from "react";
 
-export const AddCardModal = ({ addCallback, closeModal}: PropsType) => {
-    const [question, setQuestion] = useState("")
-    const [answer, setAnswer] = useState("")
+export const EditCardModal = ({ question, answer, updateCallback, closeModal}: PropsType) => {
+    const [questionText, setQuestion] = useState(question)
+    const [answerText, setAnswer] = useState(answer)
     const handleAddPack = () => {
-        addCallback(question, answer);
+        updateCallback(questionText, answerText);
         closeModal();
     }
     return (
         <>
             <div style={{margin: '40px 0', display: 'flex', gap: '15px'}}>
                 <label>Question:</label>
-                <SuperInput value={question}
-                            placeholder='enter question'
+                <SuperInput value={questionText}
+                            placeholder= {question}
                             onChange={e=>setQuestion(e.currentTarget.value)} />
 
             </div>
             <div style={{margin: '40px 0', display: 'flex', gap: '15px'}}>
                 <label>Answer:</label>
-                <textarea value={answer}
-                            placeholder='enter answer'
+                <textarea value={answerText}
+                            placeholder={answer}
                             onChange={e=>setAnswer(e.currentTarget.value)} />
             </div>
             <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
@@ -39,6 +39,8 @@ export const AddCardModal = ({ addCallback, closeModal}: PropsType) => {
     )
 }
 type PropsType = {
-    addCallback: (question: string, answer: string) => void
+    updateCallback: (question: string, answer:string) => void
     closeModal: () => void
+    question: string
+    answer: string
 }

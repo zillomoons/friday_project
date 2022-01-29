@@ -2,7 +2,9 @@ import React from "react";
 import {CardType} from "../../main/bll/reducers/cards-reducer";
 import s from "../f3-packs/Packs/Packs.module.css";
 
-export const Card = React.memo(({card, userId}: PropsType) =>{
+
+export const Card = React.memo(({card, userId, handleUpdateCard, handleDeleteCard}: PropsType) =>{
+
     const isEditable = card.user_id === userId
     return (
         <tr>
@@ -11,8 +13,8 @@ export const Card = React.memo(({card, userId}: PropsType) =>{
             <td>{card.updated.slice(0,10)}</td>
             <td>{card.grade}</td>
             <td className={s.actionBtn}>
-                {isEditable && <button className={s.deleteBtn}>Delete</button>}
-                {isEditable && <button>Edit</button>}
+                {isEditable && <button onClick={handleDeleteCard} className={s.deleteBtn}>Delete</button>}
+                {isEditable && <button onClick={handleUpdateCard}>Edit</button>}
             </td>
         </tr>
     )
@@ -21,4 +23,6 @@ export const Card = React.memo(({card, userId}: PropsType) =>{
 type PropsType = {
     card: CardType
     userId: string | null
+    handleUpdateCard: ()=>void
+    handleDeleteCard: () => void
 }

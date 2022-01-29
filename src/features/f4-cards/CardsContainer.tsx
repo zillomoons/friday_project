@@ -33,14 +33,16 @@ export const CardsContainer = () => {
     const onAddingNewCard = useCallback((question: string, answer: string) => {
         dispatch(createCard(cardsPack_id, question, answer))
     }, [])
-    const handleClickAddPack = ()=> {
+
+    const handleAddPack = ()=> {
         openModal({
             title: 'Add new card',
             children: <AddCardModal addCallback={onAddingNewCard} closeModal={closeModal} />
         })
     }
-    const handleSearch = () => {
 
+    const handleSearch = () => {
+        //debounce search goes here
     }
     const handleNavigateToPacks = () =>{
         navigate(PATH.MAIN)
@@ -52,12 +54,12 @@ export const CardsContainer = () => {
                 <SearchInput onChange={handleSearch} />
                 <SuperButton style={{width: '200px'}}
                              disabled={isLoading}
-                             onClick={handleClickAddPack}>
+                             onClick={handleAddPack}>
                     Add New Card
                 </SuperButton>
             </div>
 
-            <Cards headers={headers} cards={cards} userId={userId}/>
+            <Cards headers={headers} cards={cards} userId={userId} packId={cardsPack_id}/>
         </div>
     )
 }
