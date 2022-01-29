@@ -6,6 +6,8 @@ import s from "../Packs.module.css"
 import {ModalContext} from "../../../../contexts";
 import {DeleteModal} from "../../../../main/ui/components/modals/delete-modal/DeleteModal";
 import {EditModal} from "../../../../main/ui/components/modals/edit-modal/EditModal";
+import {LearnPackModal} from "../../../../main/ui/components/modals/learn-pack-modal/LearnPackModal";
+
 
 
 
@@ -30,7 +32,7 @@ export const Pack = React.memo(({ pack, userId, onRemovingPack, onEditingPack }:
     const handleClickLearn = () => {
         openModal({
             title: `Learn ${pack.name}`,
-            children: 'Question: .....'
+            children: <LearnPackModal packId={pack._id} packName={pack.name} closeModal={closeModal} />
         })
     };
 
@@ -43,11 +45,14 @@ export const Pack = React.memo(({ pack, userId, onRemovingPack, onEditingPack }:
 
     const userName = pack.user_name.length > 50 ? pack.user_name.slice(0, 50) : pack.user_name;
     const navigate = useNavigate();
+    const handleNavigateToCard = () => {
+        navigate(`${PATH.CARDS}?cardsPack_id=${pack._id}&packName=${pack.name}`)
+    }
 
     return <tr>
         <td>
             <div className={s.packName}
-                onClick={() => { navigate(`${PATH.CARDS}?cardsPack_id=${pack._id}`) }}>
+                onClick={handleNavigateToCard}>
                 {pack.name}
             </div>
         </td>

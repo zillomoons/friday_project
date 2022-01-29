@@ -1,9 +1,8 @@
 import loadImg from '../../../../assets/images/preloader.svg'
+import s from "./Preloader.module.css"
 
 export const Preloader = () => {
-    return <div style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <img src={loadImg} alt="preloader"
-            style={{}}
-        />
+    return <div className={s.preloaderWrapper}>
+        <img src={loadImg} alt="preloader"/>
     </div>
 }

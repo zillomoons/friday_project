@@ -1,8 +1,22 @@
 .cardsList{
-    text-align: center;
+    background-color: white;
+    border-radius: 8px;
     display: flex;
+    width: 90%;
+    margin: 50px auto;
     flex-direction: column;
-    gap: 50px;
+}
+.cardsList h3{
+    margin: 45px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.searchBlock{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 40px 0;
 }
 .cardsTable{
     width: 90%;
@@ -22,10 +36,26 @@
     background-color: #ECECF9;
 }
 .cardsTable td{
-    width: 200px;
+    /*width: 200px;*/
     inline-size: 190px;
     /*overflow: hidden;*/
     overflow-wrap: break-word;
     word-break: break-all;
+    text-align: center;
 
+}
+.actionBtn button{
+    border-radius: 2px;
+    background-color: #D7D8EF;
+    border: none;
+    margin: 0 5px;
+    padding: 6px;
+    color: #21268F;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+button.deleteBtn{
+    background-color: #F1453D;
+    color: #ffffff;
 }

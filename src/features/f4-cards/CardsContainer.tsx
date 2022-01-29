@@ -1,12 +1,16 @@
 import s from './Cards.module.css';
 import {Cards} from "./Cards";
-import {useEffect, useState} from "react";
+import {useCallback, useContext, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../main/bll/store/store";
 import SuperButton from "../../main/ui/common/superButton/SuperButton";
-import SuperInput from "../../main/ui/common/superInput/SuperInput";
 import {createCard, getCards} from "../../main/bll/reducers/cards-reducer";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {ModalContext} from "../../contexts";
+import {AddCardModal} from "../../main/ui/components/modals/add-card-modal/AddCardModal";
+import {SearchInput} from "../../main/ui/common/SearchInput";
+import {MdOutlineKeyboardBackspace} from 'react-icons/md'
+import {PATH} from "../../main/ui/routes/Routes";
 
 export const CardsContainer = () => {
     const dispatch = useDispatch();
@@ -14,56 +18,47 @@ export const CardsContainer = () => {
     const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
     const userId = useSelector((state: AppStoreType) => state.profile._id);
     const cardsPack_id = searchParams.get('cardsPack_id');
+    const packName = searchParams.get('packName');
     const headers = ['Question', 'Answer', 'Last updated', 'Grade', 'Actions'];
     const cards = useSelector((state: AppStoreType) => state.cards.cards);
+    const {openModal, closeModal} = useContext(ModalContext);
+    const navigate = useNavigate();
 
     //CRUD operations with cards
     useEffect(() => {
         dispatch(getCards(cardsPack_id))
     }, [dispatch, cardsPack_id])
-    const onAddingNewCard = (question: string, answer: string) => {
+
+    //add new card to pack
+    const onAddingNewCard = useCallback((question: string, answer: string) => {
         dispatch(createCard(cardsPack_id, question, answer))
+    }, [])
+    const handleClickAddPack = ()=> {
+        openModal({
+            title: 'Add new card',
+            children: <AddCardModal addCallback={onAddingNewCard} closeModal={closeModal} />
+        })
     }
+    const handleSearch = () => {
+
+    }
+    const handleNavigateToPacks = () =>{
+        navigate(PATH.MAIN)
+    };
     return (
         <div className={s.cardsList}>
-            <h3>Cards list</h3>
-            <AddNewCard isLoading={isLoading} onAddingNewCard={onAddingNewCard}/>
+            <h3 onClick={handleNavigateToPacks}><MdOutlineKeyboardBackspace />{packName}</h3>
+            <div className={s.searchBlock} >
+                <SearchInput onChange={handleSearch} />
+                <SuperButton style={{width: '200px'}}
+                             disabled={isLoading}
+                             onClick={handleClickAddPack}>
+                    Add New Card
+                </SuperButton>
+            </div>
+
             <Cards headers={headers} cards={cards} userId={userId}/>
         </div>
     )
 }
 
-const AddNewCard = ({isLoading, onAddingNewCard}: PropsType) => {
-    const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState('');
-    const addNewCard = () => {
-        onAddingNewCard(question, answer);
-        setQuestion('');
-        setAnswer('');
-
-    }
-    return (
-        <div style={{display: "flex", gap: '30px', justifyContent: 'center'}}>
-            <div style={{display: "flex", gap: '30px'}}>
-                <SuperInput placeholder="Question"
-                            disabled={isLoading}
-                            onChange={e => setQuestion(e.currentTarget.value)}
-                />
-                <SuperInput placeholder="Answer"
-                            disabled={isLoading}
-                            onChange={e => setAnswer(e.currentTarget.value)}
-                />
-            </div>
-            <SuperButton style={{width: '200px'}}
-                         disabled={isLoading}
-                         onClick={addNewCard}>
-                Add New Card
-            </SuperButton>
-        </div>
-    )
-}
-
-type PropsType = {
-    isLoading: boolean
-    onAddingNewCard: (question: string, answer: string) => void
-}
