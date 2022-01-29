@@ -29,6 +29,7 @@ export const PacksContainer = () => {
   const isLoading = useSelector((state: AppStoreType) => state.app.isLoading);
   const userId = useSelector((state: AppStoreType) => state.profile._id);
   const headers = ["Name", "Cards", "Last updated", "Created by", "Actions"];
+
   //Add new pack modal
   const {openModal, closeModal} = useContext(ModalContext);
   const handleClickAddItem = () => {
@@ -37,6 +38,7 @@ export const PacksContainer = () => {
       children: <AddPackModal addCallback={onAddingNewPack} closeModal={closeModal} />
     })
   };
+
   //CRUD operations with packs
   // request for packs from server
   useEffect(() => {

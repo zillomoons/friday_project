@@ -1,44 +1,61 @@
 import SuperButton from "../../../common/superButton/SuperButton";
-import {useContext, useEffect} from "react";
-import {getCards} from "../../../../bll/reducers/cards-reducer";
+import {useEffect, useState} from "react";
+import {CardType, getCards, updateCardGrade} from "../../../../bll/reducers/cards-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../bll/store/store";
 import {Preloader} from "../../../common/preloader/Preloader";
-import { LearnPackModalWithAnswer } from "./LearnPackModalWithAnswer";
-import {ModalContext} from "../../../../../contexts";
+import SuperRadio from "../../../common/superRadio/SuperRadio";
+import s from "./LearnPackModal.module.css";
+import {getRandomCard} from "../../../utils/getRandomCard";
 
 
-export const LearnPackModal = ({packId, closeModal, packName}: PropsType) => {
-    const dispatch = useDispatch();
-    const {openModal} = useContext(ModalContext);
-    useEffect(() => {
-        dispatch(getCards(packId))
-    }, [dispatch, packId])
+export const LearnPackModal = ({packId, closeModal}: PropsType) => {
+    const options = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
+    const [showAnswer, setShowAnswer] = useState(false);
     const cards = useSelector((state: AppStoreType)=> state.cards.cards);
-    const handleClick = () => {
-        openModal({
-            title: packName,
-            children: <LearnPackModalWithAnswer packId={packId} closeModal={closeModal} />
-        })
+    const dispatch = useDispatch();
+    const [value, onChangeOption] = useState(options[1]);
+    const [card, setCard] = useState<CardType>({
+        answer: 'init answer',
+        question: 'init question',
+        cardsPack_id: '',
+        grade: 0,
+        shots: 0,
+        user_id: 'string',
+        created: 'string',
+        updated: 'string',
+        _id: 'string',
+    })
+    useEffect(() => {
+        dispatch(getCards(packId));
+        cards.length && setCard(getRandomCard(cards));
+    }, [dispatch, packId])
 
+    const handleShowAnswer = () => {
+        setShowAnswer(true);
+    }
+    const handleClickNext = () => {
+        dispatch(updateCardGrade(packId, card._id, options.indexOf(value) + 1) )
+        setShowAnswer(false);
+        setCard(getRandomCard(cards));
     }
     if(!cards.length){
         return <Preloader />
     }
     return (
         <>
-            <p style={{margin: '40px 0'}}>
-                <b>Question:</b> {cards[0].question}
-            </p>
-            <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                <SuperButton style={{backgroundColor: '#D7D8EF', width: '200px'}}
-                             onClick={closeModal}
-                >
-                    Cancel
-                </SuperButton>
-                <SuperButton style={{width: '200px'}} onClick={handleClick}>
-                    Show answer
-                </SuperButton>
+            <div className={s.main}>
+                <div><b>Question:</b> {card.question}</div>
+                {showAnswer && <div><b>Answer:</b> {card.answer}</div>}
+            </div>
+            {showAnswer && <div className={s.options}>
+                <b>Rate yourself:</b>
+                <SuperRadio options={options} value={value} onChangeOption={onChangeOption}  />
+            </div>}
+            <div className={s.buttons}>
+                <SuperButton style={{backgroundColor: '#D7D8EF'}} onClick={closeModal}>Cancel</SuperButton>
+                {!showAnswer && <SuperButton onClick={handleShowAnswer}>Show answer</SuperButton>}
+                {showAnswer && <SuperButton onClick={handleClickNext}>Next</SuperButton>}
             </div>
 
         </>
@@ -46,6 +63,5 @@ export const LearnPackModal = ({packId, closeModal, packName}: PropsType) => {
 }
 type PropsType = {
     packId: string
-    packName: string
     closeModal: () => void
 }

@@ -1,11 +1,11 @@
 import s from './Packs.module.css';
 import {PackType} from "../../../main/bll/reducers/packs-reducer";
-import {Pack} from "./Pack/Pack";
 import React from 'react';
+import {PackContainer} from "./Pack/PackContainer";
 
 export const Packs = React.memo(({packs, headers, userId, onRemovingPack, onEditingPack}: PropsType) => {
     const mappedHeaders = headers.map((el,i) => <th key={i}>{el}</th>);
-    const mappedPacks = packs.map(p => <Pack key={p._id} pack={p}
+    const mappedPacks = packs.map(p => <PackContainer key={p._id} pack={p}
                                              userId={userId}
                                              onRemovingPack={onRemovingPack}
                                              onEditingPack={onEditingPack}

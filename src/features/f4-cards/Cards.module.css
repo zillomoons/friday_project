@@ -38,12 +38,15 @@
 }
 .cardsTable td{
     /*width: 200px;*/
-    inline-size: 190px;
+    inline-size: 150px;
     /*overflow: hidden;*/
     overflow-wrap: break-word;
     word-break: break-all;
     text-align: center;
 
+}
+.cardsTable td:nth-child(2){
+    inline-size: 250px;
 }
 .actionBtn button{
     border-radius: 2px;
