@@ -9,7 +9,7 @@ const initState = {
     maxCardsCount: 120,
     page: 1,
     pageCount: 10,
-    cardsPacksTotalCount: 50,
+    cardPacksTotalCount: 50,
     packName: '',
     min: 0, // min and max that user selected
     max: 25,
@@ -23,7 +23,10 @@ export const packsReducer = (state = initState, action: ActionsType): InitStateT
         case "packs/SET-RANGE-VALUES":
         case "packs/SET-CARDS-COUNT":
         case 'packs/SET-IS-MINE-CARDS':
-        case "packs/SET-PACK-NAME": 
+        case "packs/SET-PACK-NAME":
+        case "packs/SET-PAGE-COUNT":
+        case "packs/SET-CURRENT-PAGE":
+        case "packs/SET-SORT-PACKS":
             return { ...state, ...action.payload }
         default:
             return state;
@@ -31,14 +34,18 @@ export const packsReducer = (state = initState, action: ActionsType): InitStateT
 }
 
 //Action creators
-export const setPacks = (cardPacks: PackType[]) => ({ type: 'packs/SET-PACKS', payload: { cardPacks } } as const)
+export const setPacks = (cardPacks: PackType[], cardPacksTotalCount: number) => ({ type: 'packs/SET-PACKS', payload: { cardPacks, cardPacksTotalCount } } as const)
 export const setCardsCount = (minCardsCount: number, maxCardsCount: number) => ({
     type: 'packs/SET-CARDS-COUNT',
     payload: { minCardsCount, maxCardsCount }
 } as const);
-export const setRangeValues = (min: number, max: number) => ({ type: 'packs/SET-RANGE-VALUES', payload: { min, max } } as const)
-export const setIsMineCards = (isMine: boolean) => ({ type: 'packs/SET-IS-MINE-CARDS', payload: { isMine } } as const)
-export const setPackName = (packName: string) => ({ type: "packs/SET-PACK-NAME", payload: {packName}} as const)
+export const setRangeValues = (min: number, max: number) => ({ type: 'packs/SET-RANGE-VALUES', payload: { min, max } } as const);
+export const setIsMineCards = (isMine: boolean) => ({ type: 'packs/SET-IS-MINE-CARDS', payload: { isMine } } as const);
+export const setPackName = (packName: string) => ({ type: "packs/SET-PACK-NAME", payload: {packName}} as const);
+export const setPacksPageCount = (pageCount: number) => ({type: "packs/SET-PAGE-COUNT", payload: {pageCount} } as const);
+export const setPacksPage = (page: number) => ({type: "packs/SET-CURRENT-PAGE", payload: {page}} as const );
+export const setSortPacks = (sortPacks: string) => ({type: "packs/SET-SORT-PACKS", payload: {sortPacks}} as const);
+
 
 //Thunk creators
 export const getPacks = () => async (dispatch: Dispatch, getState: () => AppStoreType) => {
@@ -49,7 +56,7 @@ export const getPacks = () => async (dispatch: Dispatch, getState: () => AppStor
         dispatch(setLoading(true));
         dispatch(setError(null));
         const res = await packsAPI.getPacks(packName, min, max, sortPacks, page, pageCount, user_id);
-        dispatch(setPacks(res.data.cardPacks));
+        dispatch(setPacks(res.data.cardPacks, res.data.cardPacksTotalCount));
         dispatch(setCardsCount(res.data.minCardsCount, res.data.maxCardsCount))
     } catch (e: any) {
         dispatch(setError(e.response ? e.response.data.error : 'some error'))
@@ -107,6 +114,9 @@ type ActionsType = ReturnType<typeof setPacks>
     | ReturnType<typeof setCardsCount>
     | ReturnType<typeof setIsMineCards>
     | ReturnType<typeof setPackName>
+    | ReturnType<typeof setPacksPageCount>
+    | ReturnType<typeof setPacksPage>
+    | ReturnType<typeof setSortPacks>
 
 export type PackType = {
     _id: string

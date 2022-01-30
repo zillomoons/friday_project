@@ -1,0 +1,27 @@
+.pageControl{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 25px 0;
+}
+
+.pagination{
+    display: flex;
+    align-items: baseline;
+
+}
+.pagination button {
+    padding: 5px 10px;
+    border-radius: 2px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+.pagination button:hover{
+    box-shadow: 0 5px 5px -5px rgba(34, 60, 80, 0.6);
+}
+.pageCount {
+    display: flex;
+    gap:8px;
+}

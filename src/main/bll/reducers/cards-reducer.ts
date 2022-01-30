@@ -1,36 +1,46 @@
 import {Dispatch} from "redux";
 import {setError, setLoading} from "./app-reducer";
 import {cardsAPI} from "../../dal/cardsAPI";
-import {AppThunk} from "../store/store";
+import {AppStoreType, AppThunk} from "../store/store";
 
 const initState = {
     cards: [] as CardType[],
-    maxGrade: 5,
-    minGrade: 0,
+    max: 5,
+    min: 0,
     page: 1,
     pageCount: 10,
     packUserId: null as string | null,
-    cardsTotalCount: 20
+    cardsTotalCount: 20,
+    cardQuestion: '',
+    cardAnswer: '',
+    sortCards: '1grade'
 }
 
 export const cardsReducer = (state = initState, action: ActionType): InitStateType => {
     switch (action.type){
         case "cards/SET-CARDS":
+        case "cards/SET-PAGE-COUNT":
+        case "cards/SET-CURRENT-PAGE":
             return {...state, ...action.payload};
         default:
             return state;
     }
 }
 //Action creators
-export const setCards = (cards: CardType[]) => ({type: 'cards/SET-CARDS', payload: {cards} } as const)
+export const setCards = (cards: CardType[], cardsTotalCount: number) => ({type: 'cards/SET-CARDS', payload: {cards, cardsTotalCount} } as const);
+export const setCardsPageCount = (pageCount: number) => ({type: 'cards/SET-PAGE-COUNT', payload: {pageCount} } as const);
+export const setCardsPage = (page: number) => ({type: "cards/SET-CURRENT-PAGE", payload: {page}} as const );
+
 
 //Thunk creators
-export const getCards = (pack_id: string | null) => async (dispatch: Dispatch) => {
+
+export const getCards = (pack_id: string | null) => async (dispatch: Dispatch, getState: () => AppStoreType) => {
+    const {max, min, page, pageCount, cardAnswer, cardQuestion, sortCards} = getState().cards
     try {
         dispatch(setLoading(true));
         dispatch(setError(null));
-        const res = await cardsAPI.getCards(pack_id);
-        dispatch(setCards(res.data.cards))
+        const res = await cardsAPI.getCards(pack_id, cardAnswer, cardQuestion, min,max, sortCards, page, pageCount);
+        dispatch(setCards(res.data.cards, res.data.cardsTotalCount))
     } catch (e: any) {
         dispatch(setError(e.response? e.response.data.error : 'some error'));
     } finally {
@@ -85,7 +95,7 @@ export const updateCardGrade = (cardsPack_id: string, _id: string, grade: number
 
 // Types
 type InitStateType = typeof initState;
-type ActionType = ReturnType<typeof setCards>;
+type ActionType = ReturnType<typeof setCards> | ReturnType<typeof setCardsPageCount> | ReturnType<typeof setCardsPage>
 
 export type CardType = {
     answer: string

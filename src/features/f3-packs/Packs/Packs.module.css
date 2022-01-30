@@ -17,8 +17,20 @@
     border-radius: 8px;
     box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
+.tableHeader{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
 .packsTable th{
-    justify-self: flex-start;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 10px;
+}
+.packsTable th:nth-child(5) i{
+    display: none;
 }
 .packsTable tr{
     display: flex;
@@ -55,4 +67,9 @@
  button.deleteBtn{
     background-color: #F1453D;
     color: #ffffff;
+}
+.pageControl{
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
